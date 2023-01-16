@@ -1,0 +1,7 @@
+{
+  "python.pythonPath": ".venv\\Scripts\\python.exe",
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.venv": true,
+  }
+}
