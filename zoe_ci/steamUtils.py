@@ -1,7 +1,7 @@
 import os
 
-from Zoe.utils import *
-import Zoe.tasks
+from zoe_ci.utils import *
+import zoe_ci.tasks
 
 import logging
 logger = logging.getLogger('steamcmd')
@@ -9,7 +9,7 @@ logger = logging.getLogger('steamcmd')
 steamcmd_exe = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', 'misc', 'steamcmd', 'steamcmd.exe'))
 
 def steamSync(vcs: VCS):
-  with Zoe.tasks.GenericTask("steam sync"):
+  with zoe_ci.tasks.GenericTask("steam sync"):
     res = False
 
     os.chdir(os.path.join(os.environ['WORKSPACE'], vcs.outPath))

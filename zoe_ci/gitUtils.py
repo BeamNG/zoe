@@ -1,7 +1,7 @@
 import os
 
-from Zoe.utils import *
-from Zoe.tasks import *
+from zoe_ci.utils import *
+from zoe_ci.tasks import *
 
 import logging
 logger = logging.getLogger('git')

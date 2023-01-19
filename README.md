@@ -1,11 +1,11 @@
-# Zoe Job framework
+# zoe_ci Job framework
 
-If you are new to Zoe, look at the architecture docs there: [misc/ZoeArch.md](misc/ZoeArch.md)
+If you are new to zoe_ci, look at the architecture docs there: [misc/ZoeArch.md](misc/ZoeArch.md)
 
-This repository is the client part of the Zoe architecture that executes work items on target machines.
+This repository is the client part of the zoe_ci architecture that executes work items on target machines.
 
 It consists of:
-* a python library that implements the base primitives: [Zoe](Zoe)
+* a python library that implements the base primitives: [zoe_ci](zoe_ci)
 * and several [examples](examples)
 
 ## Conventions
@@ -23,7 +23,7 @@ pip install zoe
 
 to run:
 ```batch
-python -m Zoe
+python -m zoe_ci
 ```
 ## Development: start / testing
 

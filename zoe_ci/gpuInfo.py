@@ -28,6 +28,7 @@ class NvidiaGpuInfo:
         self.gpus = GPUtil.getGPUs()
         self.gpuCount = len(self.gpus)
       except Exception:
+        self.gpuCount = 0
         logger.exception("An error occurred while getting Nvidia GPU info")
 
     def getGpuInfo(self) -> list:
@@ -58,6 +59,7 @@ class AMDGpuInfo:
         self.gpus = ADLManager.getInstance().getDevices()
         self.gpuCount = len(self.gpus)
       except Exception:
+        self.gpuCount = 0
         logger.exception("An error occurred while getting AMD GPU info")
 
     def getGpuInfo(self) -> list:

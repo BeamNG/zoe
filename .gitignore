@@ -3,4 +3,4 @@ __pycache__
 workspace/
 .env
 /dist/
-*.egg-INFO/
+*.egg-info/

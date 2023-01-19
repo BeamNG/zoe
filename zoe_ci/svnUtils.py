@@ -2,9 +2,9 @@ import os
 import re
 import time
 
-from Zoe.utils import *
-from Zoe.tasks import *
-import Zoe.tasks
+from zoe_ci.utils import *
+from zoe_ci.tasks import *
+import zoe_ci.tasks
 
 import logging
 logger = logging.getLogger('svn')
@@ -234,7 +234,7 @@ class _SVNUpdateOutputProcessor:
 def svnCheckout(**execCtx):
   # look how much stuff is out there
   pr = _SVNListOutputProcessor()
-  shellTask = Zoe.tasks.ShellTask('svn list -v -R {vcs.url:} --non-interactive --username "{vcs.username:}" --password "{vcs.password:}"', callbackClass=pr, **execCtx)
+  shellTask = zoe_ci.tasks.ShellTask('svn list -v -R {vcs.url:} --non-interactive --username "{vcs.username:}" --password "{vcs.password:}"', callbackClass=pr, **execCtx)
   ret, _ = shellTask.run()
   svn_files, total_bytes = pr.getResults()
   if ret == 0:

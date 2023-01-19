@@ -7,7 +7,7 @@ import msgpack
 import logging
 import sys
 
-import Zoe.tasks
+import zoe_ci.tasks
 
 logger = logging.getLogger('utils')
 _startup_cwd = os.getcwd()
@@ -121,11 +121,11 @@ def execBlock(cmdBlock, **kwargs):
     cmd = cmd.strip()
     if len(cmd) == 0 or cmd[0] == '#':
       continue
-    res = res and Zoe.tasks.ShellTask(cmd, **kwargs).run()
+    res = res and zoe_ci.tasks.ShellTask(cmd, **kwargs).run()
   return res
 
 def exec(*args, **kwargs):
-  return Zoe.tasks.ShellTask(*args, **kwargs).run()
+  return zoe_ci.tasks.ShellTask(*args, **kwargs).run()
 
 def human_readable_size(size, decimal_places = 2):
   for unit in ['B', 'KB', 'MB', 'GB', 'TB', 'PB']:
@@ -135,16 +135,16 @@ def human_readable_size(size, decimal_places = 2):
   return f"{size:.{decimal_places}f} {unit}"
 
 def getWindowsShellVariable(varName):
-  return ''.join(Zoe.tasks.ShellTask('echo %{}%'.format(varName), shell=True).run()[1])
+  return ''.join(zoe_ci.tasks.ShellTask('echo %{}%'.format(varName), shell=True).run()[1])
 
 def getUnixShellVariable(varName):
-  return ''.join(Zoe.tasks.ShellTask('echo ${}'.format(varName), shell=True).run()[1])
+  return ''.join(zoe_ci.tasks.ShellTask('echo ${}'.format(varName), shell=True).run()[1])
 
 def runCommandSimple(cmd):
-  return ''.join(Zoe.tasks.ShellTask(cmd, shell=True).run()[1])
+  return ''.join(zoe_ci.tasks.ShellTask(cmd, shell=True).run()[1])
 
-from Zoe.svnUtils import svnSync
-from Zoe.gitUtils import gitSync
+from zoe_ci.svnUtils import svnSync
+from zoe_ci.gitUtils import gitSync
 
 
 def getClientInstallationPath():
