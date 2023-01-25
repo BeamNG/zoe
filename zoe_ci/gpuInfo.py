@@ -7,18 +7,19 @@ if os.name == 'nt':
   try:
     import wmi
   except Exception:
+    wmi = None
     logger.exception("wmi module not found")
 
 try:
   import GPUtil
 except Exception:
-  pass
+  GPUtil = None
   logger.exception("GPUtil not installed, Nvidia GPU info not available")
 
 try:
   from pyadl import *
 except Exception:
-  pass
+  pyadl = None
   logger.exception("pyadl import error, AMD GPU info not available")
 
 class NvidiaGpuInfo:
@@ -58,12 +59,14 @@ class AMDGpuInfo:
     """
     def __init__(self) -> None:
       self.gpus_info = []
-      try:
-        self.gpus = ADLManager.getInstance().getDevices()
-        self.gpuCount = len(self.gpus)
-      except Exception:
-        self.gpuCount = 0
-        logger.exception("An error occurred while getting AMD GPU info")
+      self.gpuCount = 0
+      if pyadl is not None:
+        
+        try:
+          self.gpus = ADLManager.getInstance().getDevices()
+          self.gpuCount = len(self.gpus)
+        except Exception:
+          logger.exception("An error occurred while getting AMD GPU info")
 
     def getGpuInfo(self) -> list:
       """
