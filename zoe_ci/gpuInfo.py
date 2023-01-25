@@ -3,19 +3,22 @@ import logging
 
 logger = logging.getLogger('GPU')
 
-try:
-  import wmi
-except Exception:
-  logger.exception("wmi module not found")
+if os.name == 'nt':
+  try:
+    import wmi
+  except Exception:
+    logger.exception("wmi module not found")
 
 try:
   import GPUtil
 except Exception:
+  pass
   logger.exception("GPUtil not installed, Nvidia GPU info not available")
 
 try:
   from pyadl import *
 except Exception:
+  pass
   logger.exception("pyadl import error, AMD GPU info not available")
 
 class NvidiaGpuInfo:
