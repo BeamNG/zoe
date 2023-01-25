@@ -323,7 +323,7 @@ class Executor():
       j = job(self.env, commitInfo, self.executorInfo)
       j._execute()
 
-  def executeLocalJobs(self, jobfilename, commitInfo):
+  def executeLocalJobs(self, jobfilename, commitInfo=None):
     self.setup()
     self._executeJobs(loadJobsFromFile(jobfilename), commitInfo)
     self.teardown()

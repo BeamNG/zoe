@@ -75,7 +75,7 @@ def zoeMain():
   loadDotEnv()
   parser = argparse.ArgumentParser(prog='zoe', description='The zoe_ci client and execution program suit')
   # mode flags
-  parser.add_argument("jobfile", help="job filename to process", default=None, nargs='?')
+  parser.add_argument("-j", "--jobfile", help="job filename to process", default=None, nargs='?')
 
   # boolean flags
   parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
