@@ -1,6 +1,6 @@
-import Zoe.work
-import Zoe.utils
+import zoe_ci.work
+import zoe_ci.utils
 
-class Example_03_GIT(Zoe.work.Job):
+class Example_03_GIT(zoe_ci.work.Job):
   def run(self, *args):
-    Zoe.utils.VCS(type='git', outPath='zoe-main', url='http://your/git/url.git').sync()
+    zoe_ci.utils.VCS(type='git', outPath='zoe-main', url='http://your/git/url.git').sync()

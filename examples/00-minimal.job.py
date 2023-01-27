@@ -1,16 +1,16 @@
-import Zoe.work
-import Zoe.tasks
+import zoe_ci.work
+import zoe_ci.tasks
 
-class Example_00_minimal(Zoe.work.Job):
+class Example_00_minimal(zoe_ci.work.Job):
   def run(self, *args):
 
-    with Zoe.tasks.GenericTask():
+    with zoe_ci.tasks.GenericTask():
       self.logger.info('Hello world 1')
-    with Zoe.tasks.GenericTask():
+    with zoe_ci.tasks.GenericTask():
       self.logger.info('Hello world 2')
 
-    Zoe.tasks.ShellTask('echo 123').run()
+    zoe_ci.tasks.ShellTask('echo 123').run()
 
-    with Zoe.tasks.GenericTask():
+    with zoe_ci.tasks.GenericTask():
       self.logger.info('Hello world 3')
-      print(Zoe.tasks.ShellTask('echo Hello').run())
+      print(zoe_ci.tasks.ShellTask('echo Hello').run())

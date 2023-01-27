@@ -1,4 +1,4 @@
-import Zoe
+import zoe_ci
 import os
 import time
 import inspect
@@ -10,9 +10,9 @@ import base64
 import importlib.util
 from datetime import datetime
 
-from Zoe.utils import decodeMessage, hashPath, restartScript, hashFileSHA1, ZoeException
+from zoe_ci.utils import decodeMessage, hashPath, restartScript, hashFileSHA1, ZoeException
 
-from Zoe.gpuInfo import GpuInfo
+from zoe_ci.gpuInfo import GpuInfo
 
 logger = logging.getLogger('zoe')
 
@@ -23,15 +23,18 @@ MAKE_FILE_BACKUPS = False
 gpu_client = GpuInfo()
 
 try:
-  for gpu in gpu_client.getGpuInfo():
-    gpu_name = gpu[0]
-    gpu_free_memory = gpu[1]
-    gpu_load = gpu[2]
+  if gpu_client.getGpuCount() > 0:
+    for gpu in gpu_client.getGpuInfo():
+      gpu_name = gpu[0]
+      gpu_free_memory = gpu[1]
+      gpu_load = gpu[2]
+  else:
+    gpu_name = None
+    gpu_free_memory = None
+    gpu_load = None
 except ZoeException:
   logger.exception("An error occurred while getting GPU info")
-  gpu_name = "Unknown"
-  gpu_free_memory = "Unknown"
-  gpu_load = "Unknown"
+
 
 class Runtime():
   buildId: str = None # the build number of the current execution
@@ -63,7 +66,7 @@ class Job():
         pass
     if data is None:
       data = { 'build_number': 0 }
-    data['zoe_version'] = Zoe.__version__
+    data['zoe_version'] = zoe_ci.__version__
 
     data['build_number'] = int(data['build_number']) + 1
     data['last_build'] = datetime.now().isoformat()
@@ -94,7 +97,7 @@ class Job():
     os.makedirs(os.environ['WORKSPACE'], exist_ok=True)
     os.chdir(os.environ['WORKSPACE'])
 
-    with Zoe.tasks.GenericTask(self.__class__.__name__):
+    with zoe_ci.tasks.GenericTask(self.__class__.__name__):
       self.setup(self.commitInfo, self.executorInfo)
       self.run(self.commitInfo, self.executorInfo)
       self.teardown(self.commitInfo, self.executorInfo)
@@ -102,7 +105,7 @@ class Job():
 def loadJobsFromModule(module):
   jobs = []
   for name, cls in inspect.getmembers(module, inspect.isclass):
-    if issubclass(cls, Zoe.work.Job):
+    if issubclass(cls, zoe_ci.work.Job):
       cls._NAME = name
       jobs.append(cls)
   if len(jobs) == 0:
@@ -147,7 +150,7 @@ class Executor():
     info = {
       'clientType': 'executor',
       'name': platform.node().lower(),
-      'ZoeVersion': Zoe.__version__,
+      'ZoeVersion': zoe_ci.__version__,
       'machine_uuid': self.env.get('machine_uuid', None),
       'binaryCapable': True, # important to allow binary websocket communication
       'platform': {
@@ -167,9 +170,9 @@ class Executor():
         'system':  platform.system(),
         'version':  platform.version(),
         'uname':  platform.uname(),
-        'gpu_name': gpu_name,
-        'gpu_free_memory': gpu_free_memory,
-        'gpu_load': gpu_load,
+        'gpu_name': gpu_name if gpu_name else None,
+        'gpu_free_memory': gpu_free_memory if gpu_free_memory else None,
+        'gpu_load': gpu_load if gpu_load else None,
       },
       # tags are a way of defining features for tests to select where to run on
       # i.e. a test can say it wants to run on: ['windows', 'amd', 'max spec']
@@ -201,7 +204,7 @@ class Executor():
       info['platform']['win32_is_iot'] = platform.win32_is_iot()
 
       #for v in ['COMPUTERNAME', 'TIME', 'DATE', 'USERNAME', 'NUMBER_OF_PROCESSORS', 'APPDATA']:
-      #  data[v] = Zoe.utils.getWindowsShellVariable(v)
+      #  data[v] = zoe_ci.utils.getWindowsShellVariable(v)
 
     elif platform.system() == 'Darwin':
       info['platform']['mac_ver'] = platform.mac_ver()
@@ -210,7 +213,7 @@ class Executor():
     return info
   
   def setup(self):
-    from Zoe.serverConnection import createComms
+    from zoe_ci.serverConnection import createComms
     self.executorInfo = self._getExecutorInfo()
     self.comm = None
     if not 'localMode' in self.env:
@@ -320,7 +323,7 @@ class Executor():
       j = job(self.env, commitInfo, self.executorInfo)
       j._execute()
 
-  def executeLocalJobs(self, jobfilename, commitInfo):
+  def executeLocalJobs(self, jobfilename, commitInfo=None):
     self.setup()
     self._executeJobs(loadJobsFromFile(jobfilename), commitInfo)
     self.teardown()

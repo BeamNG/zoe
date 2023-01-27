@@ -9,9 +9,9 @@ import logging
 from datetime import datetime
 from typing import Union
 
-import Zoe.utils
-import Zoe.tasks
-import Zoe.work
+import zoe_ci.utils
+import zoe_ci.tasks
+import zoe_ci.work
 
 MAX_RECONNECT_TIME_SEC = 300
 MIN_RECONNECT_TIME_SEC = 3
@@ -136,9 +136,9 @@ class CommsLogHandler(logging.StreamHandler):
       'm': record.msg,
     }
 
-    if Zoe.tasks.GenericTask.lastTask:
-      data['task_id'] = Zoe.tasks.GenericTask.lastTask.taskid
-      data['build_id'] = Zoe.work.Runtime.buildId
+    if zoe_ci.tasks.GenericTask.lastTask:
+      data['task_id'] = zoe_ci.tasks.GenericTask.lastTask.taskid
+      data['build_id'] = zoe_ci.work.Runtime.buildId
 
     for k, v in record.__dict__.items():
       if k not in self.dummyLog.__dict__:

@@ -5,7 +5,7 @@ import hashlib
 import datetime
 import logging
 
-import Zoe.utils
+import zoe_ci.utils
 
 class GenericTask:
   """A simple placeholder that describes something happening in a given timeframe between __enter__ and __exit__ (use with 'with')"""
@@ -61,7 +61,7 @@ class ShellTask(GenericTask):
   def __init__(self, *args, **kwargs):
     super(ShellTask, self).__init__(*args, **kwargs)
 
-    self.vcs = kwargs.get('vcs', Zoe.utils.VCS())
+    self.vcs = kwargs.get('vcs', zoe_ci.utils.VCS())
     self.useShell = kwargs.get('shell', None)
     self.cmdEnv = {'vcs': self.vcs}
     self.cmdEnv.update(os.environ)
@@ -243,8 +243,8 @@ class ShellTask(GenericTask):
       self.result = False
       try:
         if self.throw:
-          raise Zoe.utils.ZoeException(error_msg)
-      except Zoe.utils.ZoeException as e:
+          raise zoe_ci.utils.ZoeException(error_msg)
+      except zoe_ci.utils.ZoeException as e:
         self.logger.error(f"Exception: {e}")
         pass
 

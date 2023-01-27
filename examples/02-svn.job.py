@@ -1,6 +1,6 @@
-import Zoe.work
-import Zoe.utils
+import zoe_ci.work
+import zoe_ci.utils
 
-class Example_02_SVN(Zoe.work.Job):
+class Example_02_SVN(zoe_ci.work.Job):
   def run(self, *args):
-    Zoe.utils.VCS(type='svn', outPath='trunk', url='http://your/svn/URL/').sync()
+    zoe_ci.utils.VCS(type='svn', outPath='trunk', url='http://your/svn/URL/').sync()

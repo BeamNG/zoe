@@ -1,6 +1,6 @@
-# Zoe Architecture
+# zoe_ci Architecture
 
-*Zoe* is the testing/job infrastructure for BeamNG being in development since Oct 2021.
+*zoe_ci* is the testing/job infrastructure for BeamNG being in development since Oct 2021.
 
 It should allow anyone to write work items that are executed on target machines upon events or regular intervals.
 
@@ -12,7 +12,7 @@ Example use cases:
 
 ## Terms / Glossary
 
-* **Zoe**: Name of the framework. Not an abbreviation. Short name, easy to remember. Test Server / Testing server is far too confusing.
+* **zoe_ci**: Name of the framework. Not an abbreviation. Short name, easy to remember. Test Server / Testing server is far too confusing.
 * **Job / Task / Test**: An work item that needs to be computed on a machine more than one time. The term Test is a Job with the results being checked. Use the term Job to keep it generic as possible.
 * **Executor / build machine**: The target machine where the job is executed.
 * **VCS**: Version Control System, think of Subversion or Git
@@ -66,13 +66,13 @@ A simpler approach to solve the overall problem
 
 Python is the de-facto language for glueing things things together in a lot of industries. It's easy to learn and get productive in no time.
 
-## How to start using Zoe?
+## How to start using zoe_ci?
 
-You need to start writing tests with the Zoe Python framework. See the [examples](examples) folder to get started.
+You need to start writing tests with the zoe_ci Python framework. See the [examples](examples) folder to get started.
 
-If Zoe is setup correctly, you should just commit a `.job.py` (or `.test.py`) file to your version control system of choice and things should be set in motion from there automatically :)
+If zoe_ci is setup correctly, you should just commit a `.job.py` (or `.test.py`) file to your version control system of choice and things should be set in motion from there automatically :)
 
-## How to develop Zoe?
+## How to develop zoe_ci?
 
 Currently there are three components:
 * The executor client and python library (this repository)

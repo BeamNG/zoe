@@ -9,9 +9,9 @@ sys.path.insert(0, depsPath)
 
 os.environ["PYTHONUNBUFFERED"] = "1"
 
-import Zoe
-from Zoe.utils import installSignalHandler
-import Zoe.work
+import zoe_ci
+from zoe_ci.utils import installSignalHandler
+import zoe_ci.work
 
 logger = None
 
@@ -46,7 +46,7 @@ def loadLocalConfig():
   try:
     from uuid import uuid4
     from appdirs import user_data_dir
-    appConfigPath = user_data_dir('Zoe', 'BeamNG')
+    appConfigPath = user_data_dir('zoe_ci', 'BeamNG')
     jsonFilename = os.path.join(appConfigPath, 'config.json')
     data = None
     if os.path.exists(jsonFilename):
@@ -59,7 +59,7 @@ def loadLocalConfig():
       uuid = uuid4().hex
       logger.info('Generated new UUID for this machine: {}'.format(uuid))
       data = { 'machine_uuid': uuid }
-    data['zoe_version'] = Zoe.__version__
+    data['zoe_version'] = zoe_ci.__version__
     os.makedirs(appConfigPath, exist_ok = True)
     with open(jsonFilename, 'w') as f:
       json.dump(data, f, sort_keys=True, indent=2)
@@ -71,11 +71,11 @@ def loadLocalConfig():
 
 def zoeMain():
   setupLogging()
-  logger.info(f"===== Welcome to Zoe v{Zoe.__version__} =====")
+  logger.info(f"===== Welcome to zoe_ci v{zoe_ci.__version__} =====")
   loadDotEnv()
-  parser = argparse.ArgumentParser(prog='zoe', description='The Zoe client and execution program suit')
+  parser = argparse.ArgumentParser(prog='zoe', description='The zoe_ci client and execution program suit')
   # mode flags
-  parser.add_argument("jobfile", help="job filename to process", default=None, nargs='?')
+  parser.add_argument("-j", "--jobfile", help="job filename to process", default=None, nargs='?')
 
   # boolean flags
   parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
@@ -98,7 +98,7 @@ def zoeMain():
       logger.error('Local mode is not available when running as executor')
       return 1
 
-  ex = Zoe.work.Executor(env)
+  ex = zoe_ci.work.Executor(env)
   if args.jobfile:
     return ex.executeLocalJobs(args.jobfile.strip())
   else:
