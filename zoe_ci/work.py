@@ -198,20 +198,10 @@ class Executor():
     info['tags'] = [str(x).lower() for x in info['tags']]
 
     info['autoupdate'] = 'autoupdate' in self.env and self.env['autoupdate']
-    if platform.system() == 'Windows':
-      info['platform']['win32_ver'] = platform.win32_ver()
-      info['platform']['win32_edition'] = platform.win32_edition()
-      info['platform']['win32_is_iot'] = platform.win32_is_iot()
 
       #for v in ['COMPUTERNAME', 'TIME', 'DATE', 'USERNAME', 'NUMBER_OF_PROCESSORS', 'APPDATA']:
       #  data[v] = zoe_ci.utils.getWindowsShellVariable(v)
 
-    elif platform.system() == 'Darwin':
-      info['platform']['mac_ver'] = platform.mac_ver()
-    elif platform.system() == 'Linux':
-      info['platform']['libc_ver'] = platform.libc_ver()
-    return info
-  
   def setup(self):
     from zoe_ci.serverConnection import createComms
     self.executorInfo = self._getExecutorInfo()
