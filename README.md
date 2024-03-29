@@ -69,7 +69,7 @@ Python is the de-facto language for glueing things things together in a lot of i
 
 ## How to start using Zoe?
 
-You need to start writing tests with the Zoe Python framework. See the [examples](examples) folder to get started.
+You need to start writing tests with the Zoe Python framework. See the [examples](client/examples) folder to get started.
 
 If Zoe is setup correctly, you should just commit a `.job.py` (or `.test.py`) file to your version control system of choice and things should be set in motion from there automatically :)
 
