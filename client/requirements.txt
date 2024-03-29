@@ -1,0 +1,9 @@
+coloredlogs
+python-dotenv
+websocket-client
+psutil
+appdirs
+msgpack
+gputil
+pyadl
+wmi

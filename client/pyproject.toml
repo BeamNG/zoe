@@ -1,0 +1,11 @@
+[build-system]
+
+[project]
+name = "BeamNGZoe"
+authors = [{name = "BeamNG GmbH", email = "tfischer@beamng.gmbh"}]
+readme = "README.md"
+classifiers = ["License :: OSI Approved :: MIT License"]
+dynamic = ["version", "description"]
+
+[project.urls]
+Home = "https://beamng.gmbh"

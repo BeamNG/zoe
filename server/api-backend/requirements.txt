@@ -1,0 +1,13 @@
+wheel
+fastapi
+gunicorn
+uvicorn[standard]
+ldap3
+python-multipart
+sqlalchemy
+aiofiles
+python-dotenv
+python-dateutil
+websockets
+msgpack
+jinja2

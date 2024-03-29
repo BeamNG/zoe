@@ -1,0 +1,26 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.1.0",
+  "configurations": [
+    {
+      "name": "Python",
+      "type": "python",
+      "request": "launch",
+      "module": "Zoe",
+      "python":"${workspaceRoot}/.venv/Scripts/python.exe",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "autoReload": {
+        "enable": true
+      },
+      "args": [
+        //"examples/02-svn.job.py",
+        "examples/03-git.job.py",
+        //"--local",
+      ],
+      "jinja": true
+    }
+  ]
+}

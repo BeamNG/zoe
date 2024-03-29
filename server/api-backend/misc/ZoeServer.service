@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve ZoeServer
+After=network.target
+
+[Service]
+User=testrunner
+Group=www-data
+WorkingDirectory=/home/testrunner/zoe/server/api-backend
+Environment="PATH=/home/testrunner/zoe/server/api-backend/.venv/bin"
+ExecStart=/home/testrunner/zoe/server/api-backend/.venv/bin/gunicorn -w 1 --reload -k uvicorn.workers.UvicornWorker ZoeServer.main:app
+
+[Install]
+WantedBy=multi-user.target

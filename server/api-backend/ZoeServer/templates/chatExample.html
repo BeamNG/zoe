@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat</title>
+  </head>
+  <body>
+    <h1>WebSocket Chat</h1>
+    <h2>client id: <span id="ws-id"></span></h2>
+    <form action="" onsubmit="sendMessage(event)">
+      <input type="text" id="messageText" autocomplete="off"/>
+      <button>Send</button>
+    </form>
+    <ul id='messages'>
+    </ul>
+    <script>
+      let ws = new WebSocket(`ws://${location.host}/ws/`);
+      let clientid;
+      ws.onopen = function(event) {
+        ws.send('{"type":"register","clientType":"webChat"}')
+      };
+      ws.onmessage = function(event) {
+        let data = JSON.parse(event.data)
+        console.log('onmessage', data)
+        if(data.type === 'clientInfo') {
+          clientid = data.clientid
+          console.info('websocket connected, got client id: ', clientid)
+          document.querySelector("#ws-id").textContent = clientid
+          return
+        }
+
+        var messages = document.getElementById('messages')
+        var message = document.createElement('li')
+        var content = document.createTextNode(event.data)
+        message.appendChild(content)
+        messages.appendChild(message)
+      };
+      function sendMessage(event) {
+        var input = document.getElementById("messageText")
+        ws.send(JSON.stringify({type:'chat', 'msg': input.value}))
+        input.value = ''
+        event.preventDefault()
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+[Unit]
+Description=Zoe client instance
+After=network.target
+
+[Service]
+User=testrunner
+Group=www-data
+WorkingDirectory=/home/testrunner/zoe/client
+Environment="PATH=/home/testrunner/zoe/client/.venv/bin"
+ExecStart=/home/testrunner/zoe/client/.venv/bin/python3 -m Zoe -u
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
