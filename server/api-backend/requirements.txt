@@ -11,3 +11,6 @@ python-dateutil
 websockets
 msgpack
 jinja2
+pydantic-settings
+schedule
+wmi

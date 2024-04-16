@@ -7,3 +7,5 @@ msgpack
 gputil
 pyadl
 wmi
+requests
+schedule

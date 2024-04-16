@@ -8,79 +8,78 @@ try:
 except Exception:
   logger.exception("wmi module not found")
 
-try:
-  import GPUtil
-except Exception:
-  logger.exception("GPUtil not installed, Nvidia GPU info not available")
+#try:
+#  import GPUtil
+#except Exception:
+#  logger.exception("GPUtil not installed, Nvidia GPU info not available")
+#
+#try:
+#  from pyadl import *
+#except Exception:
+#  logger.exception("pyadl import error, AMD GPU info not available")
 
-try:
-  from pyadl import *
-except Exception:
-  logger.exception("pyadl import error, AMD GPU info not available")
-
-class NvidiaGpuInfo:
-    """
-    Nvidia Class for getting GPU information
-    """
-    def __init__(self) -> None:
-      self.list_gpus = []
-      try:
-        self.gpus = GPUtil.getGPUs()
-        self.gpuCount = len(self.gpus)
-      except Exception:
-        logger.exception("An error occurred while getting Nvidia GPU info")
-
-    def getGpuInfo(self) -> list:
-      if self.gpuCount > 0:
-        for gpu in self.gpus:
-            gpu_name = gpu.name
-            gpu_load = f"{gpu.load*100}%"
-            gpu_free_memory = round(gpu.memoryFree)
-            self.list_gpus.append(
-                (
-                  gpu_name,
-                  gpu_free_memory,
-                  gpu_load,
-                )
-            )
-        return self.list_gpus
-      else:
-        return []
-
-
-class AMDGpuInfo:
-    """
-    AMD Class for getting GPU information
-    """
-    def __init__(self) -> None:
-      self.gpus_info = []
-      try:
-        self.gpus = ADLManager.getInstance().getDevices()
-        self.gpuCount = len(self.gpus)
-      except Exception:
-        logger.exception("An error occurred while getting AMD GPU info")
-
-    def getGpuInfo(self) -> list:
-      """
-      build gpu info list for AMD
-      """
-      try:
-        for gpu in self.gpuCount:
-            self.gpu = pyamdgpuinfo.get_gpu(gpu)
-            gpu_name = self.gpu.name
-            gpu_vram = self.gpu.query_vram_usage()
-            gpu_load = self.gpu.query_load()
-            self.gpus_info.append(
-                (
-                  gpu_name,
-                  f"{round(gpu_vram / (1024 * 1024))} MB",
-                  f"{gpu_load*100}%",
-                )
-            )
-      except Exception:
-          logger.exception("An error occurred while getting AMD GPU info")
-          return []
-      return self.gpus_info
+#class NvidiaGpuInfo:
+#    """
+#    Nvidia Class for getting GPU information
+#    """
+#    def __init__(self) -> None:
+#      self.list_gpus = []
+#      try:
+#        self.gpus = GPUtil.getGPUs()
+#        self.gpuCount = len(self.gpus)
+#      except Exception:
+#        logger.exception("An error occurred while getting Nvidia GPU info")
+#
+#    def getGpuInfo(self) -> list:
+#      if self.gpuCount > 0:
+#        for gpu in self.gpus:
+#            gpu_name = gpu.name
+#            gpu_load = f"{gpu.load*100}%"
+#            gpu_free_memory = round(gpu.memoryFree)
+#            self.list_gpus.append(
+#                (
+#                  gpu_name,
+#                  gpu_free_memory,
+#                  gpu_load,
+#                )
+#            )
+#        return self.list_gpus
+#      else:
+#        return []
+#
+#class AMDGpuInfo:
+#    """
+#    AMD Class for getting GPU information
+#    """
+#    def __init__(self) -> None:
+#      self.gpus_info = []
+#      try:
+#        self.gpus = ADLManager.getInstance().getDevices()
+#        self.gpuCount = len(self.gpus)
+#      except Exception:
+#        logger.exception("An error occurred while getting AMD GPU info")
+#
+#    def getGpuInfo(self) -> list:
+#      """
+#      build gpu info list for AMD
+#      """
+#      try:
+#        for gpu in self.gpuCount:
+#            self.gpu = pyamdgpuinfo.get_gpu(gpu)
+#            gpu_name = self.gpu.name
+#            gpu_vram = self.gpu.query_vram_usage()
+#            gpu_load = self.gpu.query_load()
+#            self.gpus_info.append(
+#                (
+#                  gpu_name,
+#                  f"{round(gpu_vram / (1024 * 1024))} MB",
+#                  f"{gpu_load*100}%",
+#                )
+#            )
+#      except Exception:
+#          logger.exception("An error occurred while getting AMD GPU info")
+#          return []
+#      return self.gpus_info
 
 class WindowsGpuInfo:
   """
@@ -111,8 +110,8 @@ class GpuInfo:
   """
   def __init__(self) -> None:
     self.gpus = []
-    self.nvidia_client = NvidiaGpuInfo()
-    self.amd_client = AMDGpuInfo()
+    #self.nvidia_client = NvidiaGpuInfo()
+    #self.amd_client = AMDGpuInfo()
     self.windows_client = WindowsGpuInfo()
 
   def _build_gpu_list(self) -> list:
@@ -124,11 +123,11 @@ class GpuInfo:
 
     elif self.windows_client.gpuCount > 0:
       self.gpus.extend(self.windows_client.getGpuInfo())
-      
+
     return self.gpus
-  
+
   def getGpuInfo(self) -> list:
     return self._build_gpu_list()
-  
+
   def getGpuCount(self) -> int:
     return len(self.gpus)
